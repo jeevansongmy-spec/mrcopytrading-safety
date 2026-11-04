@@ -1,5 +1,5 @@
 // Withdraw and send: signed ONLY by your own wallet (Hyperliquid 'user-signed actions'). Our engine has no part in it.
-// From the live MrCopyTrading site: components/deposit/web3.tsx, lines 757–784, commit 8cb535a. Internal notes removed; code unchanged.
+// From the live MrCopyTrading site: components/deposit/web3.tsx, lines 757–784, commit bd0cd68. Internal notes removed; code unchanged.
   const send = async (address: string) => {
     setErr(""); setBusy(true);
     try {

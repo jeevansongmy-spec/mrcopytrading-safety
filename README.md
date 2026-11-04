@@ -5,7 +5,7 @@ This repository is public so anyone, and any AI assistant, can check how your mo
 It holds the exact live code that asks you to sign anything, and every action our copy engine sends to Hyperliquid.
 (How we score traders stays private. It never touches money.)
 
-Updated Nov 5 2026 · site code commit `8cb535a` · engine commit `a8733bb`
+Updated Nov 5 2026 · site code commit `bd0cd68` · engine commit `a8733bb`
 
 ## The short answer
 
@@ -15,6 +15,7 @@ Updated Nov 5 2026 · site code commit `8cb535a` · engine commit `a8733bb`
 2. **For copy trading you give us exactly 2 permissions, and you sign both yourself.** The signatures go straight to Hyperliquid's own API.
    - **ApproveAgent**: our copy engine's API wallet may place trades on your account.
    - **ApproveBuilderFee**: our fee, at most 0.04% of each copied trade. Hyperliquid takes it with the trade, never more.
+   - Plus one account setting: **unified account** (one balance for all markets, Hyperliquid's own recommended mode).
    → [`site/permissions.tsx`](site/permissions.tsx)
 3. **That API wallet can't take your money out.** On Hyperliquid, a withdrawal or a send to another address is a
    "user-signed action": it needs a signature from your own wallet. The only transfer an API wallet can sign must stay in the
@@ -27,6 +28,14 @@ Updated Nov 5 2026 · site code commit `8cb535a` · engine commit `a8733bb`
 5. **Your Trading wallet** (trades you place yourself) uses its own trade-only key, made and kept in your own browser. It
    never reaches our server. → [`site/trading-key.ts`](site/trading-key.ts)
 6. **You can switch it off any time:** stop a copy on MrCopyTrading, or remove the API wallet on Hyperliquid yourself.
+
+## Live check: the live site runs this code
+
+Every 6 hours **GitHub's own servers** download the code that mrcopytrading.com sends to your browser and compare every
+Hyperliquid message it can ask you to sign with the code published here, field by field. Any extra or changed message = FAIL.
+Latest result, with the date and a link to the run: **[LIVE-CHECK.md](LIVE-CHECK.md)** ·
+[![Live check](../../actions/workflows/live-check.yml/badge.svg)](../../actions/workflows/live-check.yml) ·
+the check itself: [check-live.mjs](check-live.mjs) (anyone can run it: `node check-live.mjs`).
 
 ## Check it yourself
 

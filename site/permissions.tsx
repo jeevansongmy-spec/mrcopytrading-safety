@@ -2,11 +2,13 @@
 // Hyperliquid's own API (api.hyperliquid.xyz/exchange), not to us.
 //   1. ApproveAgent: our copy engine's API wallet may place trades on your account. It can't withdraw.
 //   2. ApproveBuilderFee: our fee, at most 0.04% of each copied trade.
-// From the live MrCopyTrading site: components/deposit/web3.tsx, lines 680–681, commit 8cb535a. Internal notes removed; code unchanged.
+// Plus one account setting, also signed by you: UserSetAbstraction = Hyperliquid's unified account (one balance for all
+// markets, Hyperliquid's own recommended mode). It gives us nothing; you can switch it back on Hyperliquid.
+// From the live MrCopyTrading site: components/deposit/web3.tsx, lines 680–681, commit bd0cd68. Internal notes removed; code unchanged.
 const HL_EX = "https://api.hyperliquid.xyz/exchange", HL_INFO = "https://api.hyperliquid.xyz/info";
 const HL_DOMAIN = { name: "HyperliquidSignTransaction", version: "1", chainId: arbitrum.id, verifyingContract: "0x0000000000000000000000000000000000000000" as Address };
 
-// From the live MrCopyTrading site: components/deposit/web3.tsx, lines 934–1007, commit 8cb535a. Internal notes removed; code unchanged.
+// From the live MrCopyTrading site: components/deposit/web3.tsx, lines 934–1018, commit bd0cd68. Internal notes removed; code unchanged.
 const sigOf = (sig: Hex) => ({ r: sig.slice(0, 66), s: "0x" + sig.slice(66, 130), v: parseInt(sig.slice(130, 132), 16) });
 const AGENT_NAME = "MrCopyTrading";
 function TurnOn({ fee, onDone, cta: cta0, cs, onLeave }: { fee: string; onDone: () => void; cta?: string; cs?: CardSigner; onLeave?: () => void }) {
@@ -70,4 +72,12 @@ function TurnOn({ fee, onDone, cta: cta0, cs, onLeave }: { fee: string; onDone: 
           types: { "HyperliquidTransaction:ApproveBuilderFee": [{ name: "hyperliquidChain", type: "string" }, { name: "maxFeeRate", type: "string" }, { name: "builder", type: "address" }, { name: "nonce", type: "uint64" }] },
           message: { hyperliquidChain: "Mainnet", maxFeeRate: cur.maxFeeRate, builder: builder as Address, nonce: BigInt(t) } } as never);
         await post({ type: "approveBuilderFee", hyperliquidChain: "Mainnet", signatureChainId: "0xa4b1", maxFeeRate: cur.maxFeeRate, builder, nonce: t }, t, sig);
+      }
+      if (!cur.unified) {
+        setBusy("all");
+        const t = Date.now(), user = address.toLowerCase();
+        const sig = await signTypedDataAsync({ domain: HL_DOMAIN, primaryType: "HyperliquidTransaction:UserSetAbstraction",
+          types: { "HyperliquidTransaction:UserSetAbstraction": [{ name: "hyperliquidChain", type: "string" }, { name: "user", type: "address" }, { name: "abstraction", type: "string" }, { name: "nonce", type: "uint64" }] },
+          message: { hyperliquidChain: "Mainnet", user: user as Address, abstraction: "unifiedAccount", nonce: BigInt(t) } } as never);
+        await post({ type: "userSetAbstraction", hyperliquidChain: "Mainnet", signatureChainId: "0xa4b1", user, abstraction: "unifiedAccount", nonce: t }, t, sig);
       }
