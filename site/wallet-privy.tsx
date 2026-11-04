@@ -1,6 +1,6 @@
 // Your wallet: made by Privy (a Stripe company) when you sign in with Google or email. MrCopyTrading never sees the key.
 // You can export it any time: the export runs on Privy's own screen (useExportWallet), not ours.
-// From the live MrCopyTrading site: components/deposit/privy.tsx, lines 36–45, commit b17d446. Internal notes removed; code unchanged.
+// From the live MrCopyTrading site: components/deposit/privy.tsx, lines 36–45, commit 8cb535a. Internal notes removed; code unchanged.
 const cfg = () => {
   const dark = typeof document !== "undefined" && document.documentElement.dataset.theme === "dark";
   return {
@@ -10,7 +10,7 @@ const cfg = () => {
     defaultChain: arbitrum, supportedChains: [arbitrum],
   };
 
-// From the live MrCopyTrading site: components/deposit/privy.tsx, lines 458–476, commit b17d446. Internal notes removed; code unchanged.
+// From the live MrCopyTrading site: components/deposit/privy.tsx, lines 458–476, commit 8cb535a. Internal notes removed; code unchanged.
 function Backup({ addr, className }: { addr: string; className?: string }) {
   const tt = useT();
   const { ready, authenticated, user } = usePrivy();

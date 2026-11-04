@@ -5,7 +5,7 @@ This repository is public so anyone, and any AI assistant, can check how your mo
 It holds the exact live code that asks you to sign anything, and every action our copy engine sends to Hyperliquid.
 (How we score traders stays private. It never touches money.)
 
-Updated Nov 5 2026 · site code commit `b17d446` · engine commit `a8733bb`
+Updated Nov 5 2026 · site code commit `8cb535a` · engine commit `a8733bb`
 
 ## The short answer
 
@@ -19,6 +19,9 @@ Updated Nov 5 2026 · site code commit `b17d446` · engine commit `a8733bb`
 3. **That API wallet can't take your money out.** On Hyperliquid, a withdrawal or a send to another address is a
    "user-signed action": it needs a signature from your own wallet. The only transfer an API wallet can sign must stay in the
    same account ("Destination must match the source address"). → [`site/withdraw.tsx`](site/withdraw.tsx): only you sign it.
+   **This does not depend on our code.** Hyperliquid itself refuses a withdrawal or a send signed by an API wallet, so even
+   if our engine changed, it still couldn't take your money out. You can see the API wallet you approved, live, in your own
+   account (see "Check it yourself" below).
 4. **Our engine sends only 4 kinds of actions, all trades on your own account:** open a trade, close a trade, set the trader's
    leverage, add margin to a trade. Nothing else. → [`engine/actions.txt`](engine/actions.txt)
 5. **Your Trading wallet** (trades you place yourself) uses its own trade-only key, made and kept in your own browser. It
