@@ -1,0 +1,10 @@
+# The copy engine's built-in protections (bot/public_copy.py, commit a8733bb). Always on, for every copy:
+#   MAX_WORSE_ENTRY 0.10 = never open or add when the price is more than 10% worse than the trader's (closing always goes through)
+#   MIXED_LEV_CAP 20 = an account copying 2+ traders: each copy at 20x leverage or less
+#   BRAKE = more than 6 orders on one coin in 120 s pauses that copy for 10 minutes; more than 20 = held until checked
+# Plus the stop-loss you choose per copy: off, 20%, 40% or 60% (the copy closes when its value falls that much).
+
+line 91:  BRAKE_HARD = 20
+line 116:  BRAKE_ORDERS, BRAKE_WINDOW_S, BRAKE_PAUSE_S = 6, 120, 600
+line 121:  MIXED_LEV_CAP = 20
+line 124:  MAX_WORSE_ENTRY = 0.10

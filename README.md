@@ -5,7 +5,7 @@ This repository is public so anyone, and any AI assistant, can check how your mo
 It holds the exact live code that asks you to sign anything, and every action our copy engine sends to Hyperliquid.
 (How we score traders stays private. It never touches money.)
 
-Updated Nov 5 2026 · site code commit `bd0cd68` · engine commit `a8733bb`
+Updated Nov 5 2026 · site code commit `d2ead44` · engine commit `a8733bb`
 
 ## The short answer
 
@@ -24,10 +24,26 @@ Updated Nov 5 2026 · site code commit `bd0cd68` · engine commit `a8733bb`
    if our engine changed, it still couldn't take your money out. You can see the API wallet you approved, live, in your own
    account (see "Check it yourself" below).
 4. **Our engine sends only 4 kinds of actions, all trades on your own account:** open a trade, close a trade, set the trader's
-   leverage, add margin to a trade. Nothing else. → [`engine/actions.txt`](engine/actions.txt)
+   leverage, add margin to a trade. Nothing else. → [`engine/actions.txt`](engine/actions.txt) · protections:
+   [`engine/protections.txt`](engine/protections.txt)
 5. **Your Trading wallet** (trades you place yourself) uses its own trade-only key, made and kept in your own browser. It
    never reaches our server. → [`site/trading-key.ts`](site/trading-key.ts)
 6. **You can switch it off any time:** stop a copy on MrCopyTrading, or remove the API wallet on Hyperliquid yourself.
+
+## How the copy permission key is kept
+
+- Each account gets its own trade-only key (an API wallet). It is made on our engine server and **encrypted at once**
+  (Fernet: AES-128 + HMAC). Only the encrypted key is stored. It is decrypted in memory only at the moment of a trade.
+- The decryption secret lives only on the engine server, never in the database or the website. It was last replaced on
+  Oct 23 2026, and every key made before that was retired.
+- Every key ends on its own: Hyperliquid lets an API wallet live 180 days at most. You can remove it sooner on Hyperliquid.
+
+## If our server were ever hacked
+
+Honest worst case: someone with our engine's keys could place **trades** on accounts that have an active copy. They still
+could not withdraw or send money out: Hyperliquid refuses that without your own signature. The engine's protections
+([`engine/protections.txt`](engine/protections.txt)) and your stop-loss limit how far a copy can fall. Remove our API wallet
+on Hyperliquid and no one can trade for you at all.
 
 ## Live check: the live site runs this code
 
