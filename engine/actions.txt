@@ -1,0 +1,13 @@
+# Every Hyperliquid action the MrCopyTrading copy engine sends with your permission (bot/public_copy.py, commit a8733bb).
+# It signs as the API wallet you approved, for your own account (account_address). There are only 4 kinds:
+#   market_open / market_close = open or close a copied trade · update_leverage = the trader's leverage (never more)
+#   update_isolated_margin = add margin to an isolated copied trade. No withdraw, no send: an API wallet can't sign those.
+# (set_expires_after only sets how long a signed order stays valid.) build.py stops if any other action appears.
+
+line 564:  ex = Exchange(Account.from_key(key), constants.MAINNET_API_URL, account_address=acct, perp_dexs=ct._dexes(),
+line 1225:  res = ex.update_leverage(want[1], coin, is_cross=want[0])
+line 1243:  r2 = ex.update_leverage(want[1], coin, is_cross=True)
+line 1320:  res = ex.market_close(coin, sz=sz, slippage=LIVE_SLIPPAGE, cloid=cl, builder=bi) if kind == "close" else \
+line 1321:  ex.market_open(coin, is_buy, sz, None, LIVE_SLIPPAGE, cloid=cl, builder=bi)
+line 1401:  res = ex.update_leverage(want[1], coin, is_cross=want[0])
+line 1457:  res = ex.update_isolated_margin(round(add, 2), coin)
