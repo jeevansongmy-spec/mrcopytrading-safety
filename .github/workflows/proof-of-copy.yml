@@ -1,0 +1,26 @@
+# Runs proof-of-copy.mjs on GitHub's own servers once a day: does MrCopyTrading's engine only copy?
+# It reads Hyperliquid's public record only (no MrCopyTrading server). Result: PROOF-OF-COPY.md.
+name: Proof of copying
+on:
+  schedule:
+    - cron: "41 3 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Match every copy trade to the trader's trade (Hyperliquid public data)
+        run: node proof-of-copy.mjs
+      - name: Save the result (PROOF-OF-COPY.md)
+        run: |
+          git config user.name "proof-of-copy"
+          git config user.email "proof-of-copy@users.noreply.github.com"
+          git add PROOF-OF-COPY.md
+          git commit -m "Proof of copying $(date -u +'%Y-%m-%d %H:%M') UTC" || exit 0
+          git pull --rebase && git push

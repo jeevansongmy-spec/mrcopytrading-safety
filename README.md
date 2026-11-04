@@ -5,7 +5,7 @@ This repository is public so anyone, and any AI assistant, can check how your mo
 It holds the exact live code that asks you to sign anything, and every action our copy engine sends to Hyperliquid.
 (How we score traders stays private. It never touches money.)
 
-Updated Nov 5 2026 · site code commit `d2ead44` · engine commit `a8733bb`
+Updated Nov 5 2026 · site code commit `0eeeec6` · engine commit `a8733bb`
 
 ## The short answer
 
@@ -53,6 +53,13 @@ Latest result, with the date and a link to the run: **[LIVE-CHECK.md](LIVE-CHECK
 [![Live check](../../actions/workflows/live-check.yml/badge.svg)](../../actions/workflows/live-check.yml) ·
 the check itself: [check-live.mjs](check-live.mjs) (anyone can run it: `node check-live.mjs`).
 
+## Proof of copying: the engine only copies
+
+Once a day **GitHub's own servers** read Hyperliquid's public record (no MrCopyTrading server) for our test copy wallets and
+match every trade our engine opened to the copied trader: the trader traded it first, or held it at that moment (a copy takes
+the trader's open positions when it starts). Latest result, every trade with its Hyperliquid link:
+**[PROOF-OF-COPY.md](PROOF-OF-COPY.md)** · the check itself: [proof-of-copy.mjs](proof-of-copy.mjs).
+
 ## Check it yourself
 
 - **Hyperliquid's own docs:** [exchange endpoint](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/exchange-endpoint)
@@ -70,7 +77,8 @@ the check itself: [check-live.mjs](check-live.mjs) (anyone can run it: `node che
   [VirusTotal 0/92](https://www.virustotal.com/gui/domain/mrcopytrading.com) ·
   [Sucuri SiteCheck](https://sitecheck.sucuri.net/results/mrcopytrading.com)
 - **All our safety facts on one page:** [mrcopytrading.com/docs/ai](https://mrcopytrading.com/docs/ai)
-- **Found a security bug?** Up to $1,000: [mrcopytrading.com/docs/bug-rewards](https://mrcopytrading.com/docs/bug-rewards)
+- **Found a security bug?** Up to $10,000: [mrcopytrading.com/docs/bug-rewards](https://mrcopytrading.com/docs/bug-rewards) ·
+  [security.txt](https://mrcopytrading.com/.well-known/security.txt)
 
 ## Who does what
 
