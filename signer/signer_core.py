@@ -20,7 +20,8 @@ THE RULES (each action the engine wants to send)
   set leverage ....... allowed (Hyperliquid caps it at the coin's maximum). Exposure is limited by the size rule below.
   open / add ......... allowed only when ALL of these hold:
      1. the account has a LIVE copy whose record carries a valid website signature, and the same login has a wallet link to
-        this account that the website signed after the wallet's own signature (the engine can't make either);
+        this account that the website signed after the wallet's own signature. Ed25519: only the website holds the private
+        key; the public key is in this file (WEBSITE_PUBLIC_KEY), so neither the engine nor this signer can make one;
      2. one of those copied traders holds this coin NOW, on the SAME side (read from Hyperliquid; a 2-second cache may
         allow, but before refusing it reads again);
      3. after the order, the account's total positions stay within its own money on Hyperliquid x min(20, 1.5 x the
@@ -50,8 +51,27 @@ def _env(k: str, default: str = "") -> str:
     return os.environ.get(k, default)
 
 
-def _mac(text: str) -> str:
-    return hmac.new(_env("COPY_SIGN_KEY").encode(), text.encode(), hashlib.sha256).hexdigest()
+# The website signs copy records with Ed25519; this is its PUBLIC key (anyone can verify, nobody here can sign).
+WEBSITE_PUBLIC_KEY = "562dfa42199cbce5d53a65c6ed712b1b8ecfde41a8a726c98d072397edeb9266"
+_pub = None
+
+
+def _verify(sig: str | None, text: str) -> bool:
+    """True when `sig` is the website's Ed25519 signature of `text`. (While the HMAC key of the first shadow day is still set,
+    an old HMAC signature is accepted too; the signing server on Railway has no HMAC key.)"""
+    global _pub
+    if not sig:
+        return False
+    try:
+        if _pub is None:
+            from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
+            _pub = Ed25519PublicKey.from_public_bytes(bytes.fromhex(WEBSITE_PUBLIC_KEY))
+        import base64
+        _pub.verify(base64.b64decode(sig), text.encode())
+        return True
+    except Exception:  # noqa: BLE001
+        k = _env("COPY_SIGN_KEY")
+        return bool(k) and hmac.compare_digest(sig, hmac.new(k.encode(), text.encode(), hashlib.sha256).hexdigest())
 
 
 def _eq(a: str | None, b: str) -> bool:
@@ -149,12 +169,12 @@ def signed_traders(account: str) -> tuple[list[str], dict]:
     ag_f = _pool.submit(_sb, f"mi_agents?select=agent_address,account,user_id,claim_sig&account=eq.{acct}&revoked_at=is.null")
     rows = _sb(f"mi_copies?select=id,user_id,trader,account,status,sig&account=eq.{acct}&status=eq.live")
     agents = ag_f.result()
-    bound = {a["user_id"] for a in agents if a.get("user_id") and _eq(a.get("claim_sig"), _mac(agent_sig_text(a)))}
+    bound = {a["user_id"] for a in agents if a.get("user_id") and _verify(a.get("claim_sig"), agent_sig_text(a))}
     ok, bad, unlinked = [], 0, 0
     for c in rows:
         if c["user_id"] not in bound:
             unlinked += 1
-        elif _eq(c.get("sig"), _mac(copy_sig_text(c, acct))) or _eq(c.get("sig"), _mac(copy_sig_text(c, ""))):
+        elif _verify(c.get("sig"), copy_sig_text(c, acct)) or _verify(c.get("sig"), copy_sig_text(c, "")):
             ok.append(c["trader"].lower())
         else:
             bad += 1
