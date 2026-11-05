@@ -4,11 +4,11 @@
 //   2. ApproveBuilderFee: our fee, at most 0.04% of each copied trade.
 // Plus one account setting, also signed by you: UserSetAbstraction = Hyperliquid's unified account (one balance for all
 // markets, Hyperliquid's own recommended mode). It gives us nothing; you can switch it back on Hyperliquid.
-// From the live MrCopyTrading site: components/deposit/web3.tsx, lines 680–681, commit 7627c60. Internal notes removed; code unchanged.
+// From the live MrCopyTrading site: components/deposit/web3.tsx, lines 680–681, commit a829e37. Internal notes removed; code unchanged.
 const HL_EX = "https://api.hyperliquid.xyz/exchange", HL_INFO = "https://api.hyperliquid.xyz/info";
 const HL_DOMAIN = { name: "HyperliquidSignTransaction", version: "1", chainId: arbitrum.id, verifyingContract: "0x0000000000000000000000000000000000000000" as Address };
 
-// From the live MrCopyTrading site: components/deposit/web3.tsx, lines 934–1018, commit 7627c60. Internal notes removed; code unchanged.
+// From the live MrCopyTrading site: components/deposit/web3.tsx, lines 934–1018, commit a829e37. Internal notes removed; code unchanged.
 const sigOf = (sig: Hex) => ({ r: sig.slice(0, 66), s: "0x" + sig.slice(66, 130), v: parseInt(sig.slice(130, 132), 16) });
 const AGENT_NAME = "MrCopyTrading";
 function TurnOn({ fee, onDone, cta: cta0, cs, onLeave }: { fee: string; onDone: () => void; cta?: string; cs?: CardSigner; onLeave?: () => void }) {
