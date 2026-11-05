@@ -1,6 +1,6 @@
-# Proof of copying: 17 of 17 opens follow the trader ✅
+# Proof of copying: 16 of 16 opens follow the trader ✅
 
-Checked **Nov 4 2026, 23:57 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/41937631329), from Hyperliquid's public record only (no MrCopyTrading server).
+Checked **Nov 5 2026, 11:27 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/42019075969), from Hyperliquid's public record only (no MrCopyTrading server).
 Last 7 days, our own test copy wallets. Every trade our engine opened or added must follow the copied trader on the
 same coin and side: the trader traded it first, or held it at that moment (a copy takes the trader's open positions when it
 starts). Closes are always allowed.
@@ -33,7 +33,6 @@ starts). Closes are always allowed.
 
 | Time (UTC) | Coin | Our trade | Size @ price | Hyperliquid | The trader's trade it follows |
 |---|---|---|---|---|---|
-| 2026-10-29 07:17 | xyz:GOOGL | Open Long | 0.107 @ 292.79 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x7c07f93bc870e4807d8104479a0fa90206ea0021637403521fd0a48e8774be6b) | 0x720c…f4af held long 1000 xyz:GOOGL at that moment (copy start / catch-up) |
 | 2026-10-29 23:07 | xyz:INTC | Open Long | 0.15 @ 70.732 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x47678c947273fa5f48e10447a646e6020399007a0d771931eb3037e73177d449) | 0x720c…f4af Open Long 4 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0xc6f9bcf458f558e8c8730447a646aa02106d00d9f3f877ba6ac2684717f932d3) |
 | 2026-10-30 08:31 | xyz:INTC | Open Long | 0.16 @ 67.73 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x0394ad64eacae436050e0447ad8c060202c6004a85ce0308a75d58b7a9cebe20) | 0x720c…f4af Open Long 5 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x9b3a543063b4b0b69cb40447ad8bc70205a80015feb7cf883f02ff8322b88aa1) |
 | 2026-11-04 01:30 | xyz:GOOGL | Close Long | 0.107 @ 276.0 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xeffe4a047adf9a75f1780448048d6602078f00ea15d2b94893c6f55739d37460) | close (the trader closed, a stop, or a stop-loss: always allowed) |
