@@ -30,6 +30,14 @@ Updated Nov 5 2026 · site code commit `0eeeec6` · engine commit `a8733bb`
    never reaches our server. → [`site/trading-key.ts`](site/trading-key.ts)
 6. **You can switch it off any time:** stop a copy on MrCopyTrading, or remove the API wallet on Hyperliquid yourself.
 
+## The copy-only signer (shadow phase)
+
+[`signer/`](signer/) holds the rules our trade-only key must pass: opens and adds only when a copy our website signed is
+live and a copied trader holds that coin on the same side right now, within the account's own money; closes always,
+reduce-only. It runs from this repo: https://mrcopytrading-signer.vercel.app/version shows the exact commit. Today it
+checks every action in the background and logs its answer; it takes over the signing only after the shadow days show 100%
+of real copies allowed and a code review.
+
 ## How the copy permission key is kept
 
 - Each account gets its own trade-only key (an API wallet). It is made on our engine server and **encrypted at once**
