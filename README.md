@@ -30,19 +30,19 @@ Updated Nov 5 2026 · site code commit `348b779` · engine commit `a8733bb`
    never reaches our server. → [`site/trading-key.ts`](site/trading-key.ts)
 6. **You can switch it off any time:** stop a copy on MrCopyTrading, or remove the API wallet on Hyperliquid yourself.
 
-## The copy-only signer (shadow phase)
+## The copy-only signer (live since Nov 5 2026)
 
-[`signer/`](signer/) holds the rules our trade-only key must pass: opens and adds only when a copy our website signed is
-live and a copied trader holds that coin on the same side right now, within the account's own money; closes always,
-reduce-only. It runs from this repo: https://mrcopytrading-signer.vercel.app/version shows the exact commit. Today it
-checks every action in the background and logs its answer; it takes over the signing only after the shadow days show 100%
-of real copies allowed and a code review.
+Our copy engine holds **no trading key and no decryption secret**. It can only ask the copy-only signer, a separate server
+with no public address that only the engine can reach, built from this repo's [`signer/`](signer/) folder. The signer signs:
+opens and adds only when a copy our website signed is live and a copied trader holds that coin on the same side right now,
+within the account's own money; closes always, sent reduce-only. Anything else is refused. Copy records and wallet links are
+signed by our website with a key the engine and the signer don't have, so even a hacked engine can't invent a copy.
 
 ## How the copy permission key is kept
 
-- Each account gets its own trade-only key (an API wallet). It is made on our engine server and **encrypted at once**
-  (Fernet: AES-128 + HMAC). Only the encrypted key is stored. It is decrypted in memory only at the moment of a trade.
-- The decryption secret lives only on the engine server, never in the database or the website. It was last replaced on
+- Each account gets its own trade-only key (an API wallet). It is made on the copy-only signer and **encrypted at once**
+  (Fernet: AES-128 + HMAC). Only the encrypted key is stored. It is decrypted only inside the signer.
+- The decryption secret lives only on the signer server, never in the copy engine, the database or the website. It was last replaced on
   Oct 23 2026, and every key made before that was retired.
 - Every key ends on its own: Hyperliquid lets an API wallet live 180 days at most. You can remove it sooner on Hyperliquid.
 
