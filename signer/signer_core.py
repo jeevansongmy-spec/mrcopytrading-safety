@@ -44,6 +44,7 @@ STABLES = {"USDC", "USDT0", "USDT", "USDH", "USDE", "USDHL"}
 _cache: dict = {}
 _weight = {"min": 0, "used": 0}
 _pool = ThreadPoolExecutor(max_workers=16)          # reads go out together (speed for the switch)
+_leaf = ThreadPoolExecutor(max_workers=48)          # Walter M3: single Hyperliquid reads only (they never wait on a pool)
 READ_BUDGET = 400                      # Hyperliquid read weight per minute for this instance (its own IP, not the engine's)
 
 
@@ -117,17 +118,26 @@ def _pos(addr: str, coin: str, ttl: float) -> float:
 
 
 def _book(addr: str, ttl: float) -> dict:
-    """The account's own money and positions on Hyperliquid: every perp dex + spot stablecoins."""
-    eq = ntl = 0.0
+    """The account's own money and positions on Hyperliquid, each dollar counted ONCE, by the engine's own rule
+    (public_copy.py _money_from, Walter M2): unified / portfolio margin = max(perp, spot stablecoins) (the stablecoins hold
+    the perp money); dexAbstraction = perp + free stablecoins; standard = perp (every perp dex)."""
+    perp = ntl = 0.0
     dx = _dexes()
-    futs = [_pool.submit(_state, addr, d, ttl) for d in dx]
-    spot_f = _pool.submit(_hl, {"type": "spotClearinghouseState", "user": addr}, ttl)
+    futs = [_leaf.submit(_state, addr, d, ttl) for d in dx]
+    spot_f = _leaf.submit(_hl, {"type": "spotClearinghouseState", "user": addr}, ttl)
+    ab_f = _leaf.submit(_hl, {"type": "userAbstraction", "user": addr}, 3600, 20)
     for f in futs:
-        s = f.result()
-        eq += float((s.get("marginSummary") or {}).get("accountValue") or 0)
+        s = f.result(timeout=10)
+        perp += float((s.get("marginSummary") or {}).get("accountValue") or 0)
         ntl += sum(abs(float((p.get("position") or {}).get("positionValue") or 0)) for p in s.get("assetPositions", []))
-    spot = spot_f.result() or {}
-    eq += sum(float(b.get("total") or 0) for b in spot.get("balances", []) if b.get("coin") in STABLES)
+    st = [b for b in (spot_f.result(timeout=10) or {}).get("balances", []) if b.get("coin") in STABLES]
+    ab = ab_f.result(timeout=10)
+    if ab in ("unifiedAccount", "portfolioMargin"):
+        eq = max(perp, sum(float(b.get("total") or 0) for b in st))
+    elif ab == "dexAbstraction":
+        eq = perp + max(0.0, sum(float(b.get("total") or 0) - float(b.get("hold") or 0) for b in st))
+    else:
+        eq = perp
     return {"equity": eq, "ntl": ntl}
 
 

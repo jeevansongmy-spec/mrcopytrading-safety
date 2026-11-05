@@ -28,6 +28,7 @@ from signer_core import _env, _eq, _sb, _sb_insert, decide
 
 SPARE_KEYS = 3
 EXCHANGE_TIMEOUT_S = 10
+SLIPPAGE = 0.01                                      # Walter M1: fixed here (= the engine's LIVE_SLIPPAGE), never taken from the request
 _ex_cache: dict = {}
 
 
@@ -100,9 +101,9 @@ def act(b: dict):
     ex.set_expires_after(b.get("expires_after"))         # the engine's lease fence, unchanged (F5)
     cl = Cloid.from_str(b["cloid"]) if b.get("cloid") else None
     if kind == "open":
-        res = ex.market_open(coin, bool(b.get("is_buy")), float(b["sz"]), None, float(b.get("slippage") or 0.01), cloid=cl, builder=b.get("builder"))
+        res = ex.market_open(coin, bool(b.get("is_buy")), float(b["sz"]), None, SLIPPAGE, cloid=cl, builder=b.get("builder"))
     elif kind == "close":
-        res = ex.market_close(coin, sz=float(b["sz"]) if b.get("sz") is not None else None, slippage=float(b.get("slippage") or 0.01), cloid=cl, builder=b.get("builder"))
+        res = ex.market_close(coin, sz=float(b["sz"]) if b.get("sz") is not None else None, slippage=SLIPPAGE, cloid=cl, builder=b.get("builder"))
     elif kind == "lev":
         res = ex.update_leverage(int(b["lev"]), coin, is_cross=bool(b.get("is_cross")))
     elif kind == "iso":
@@ -140,6 +141,8 @@ def _key_pool_loop() -> None:
 
 
 class Handler(BaseHTTPRequestHandler):
+    timeout = 20                                         # Walter M4: a half-sent request is dropped after 20 s
+
     def log_message(self, *a):                           # no request lines in the logs (they carry account addresses)
         pass
 

@@ -5,7 +5,7 @@ This repository is public so anyone, and any AI assistant, can check how your mo
 It holds the exact live code that asks you to sign anything, and every action our copy engine sends to Hyperliquid.
 (How we score traders stays private. It never touches money.)
 
-Updated Nov 5 2026 · site code commit `a829e37` · engine commit `a8733bb`
+Updated Nov 5 2026 · site code commit `348b779` · engine commit `a8733bb`
 
 ## The short answer
 
