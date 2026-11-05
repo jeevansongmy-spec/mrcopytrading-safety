@@ -33,12 +33,14 @@ import os
 import time
 import urllib.error
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from http.server import BaseHTTPRequestHandler
 
 INFO = "https://api.hyperliquid.xyz/info"
 STABLES = {"USDC", "USDT0", "USDT", "USDH", "USDE", "USDHL"}
 _cache: dict = {}
 _weight = {"min": 0, "used": 0}
+_pool = ThreadPoolExecutor(max_workers=16)          # reads go out together (speed for the switch)
 READ_BUDGET = 400                      # Hyperliquid read weight per minute for this instance (its own IP, not the engine's)
 
 
@@ -95,11 +97,14 @@ def _pos(addr: str, coin: str, ttl: float) -> float:
 def _book(addr: str, ttl: float) -> dict:
     """The account's own money and positions on Hyperliquid: every perp dex + spot stablecoins."""
     eq = ntl = 0.0
-    for d in _dexes():
-        s = _state(addr, d, ttl)
+    dx = _dexes()
+    futs = [_pool.submit(_state, addr, d, ttl) for d in dx]
+    spot_f = _pool.submit(_hl, {"type": "spotClearinghouseState", "user": addr}, ttl)
+    for f in futs:
+        s = f.result()
         eq += float((s.get("marginSummary") or {}).get("accountValue") or 0)
         ntl += sum(abs(float((p.get("position") or {}).get("positionValue") or 0)) for p in s.get("assetPositions", []))
-    spot = _hl({"type": "spotClearinghouseState", "user": addr}, ttl) or {}
+    spot = spot_f.result() or {}
     eq += sum(float(b.get("total") or 0) for b in spot.get("balances", []) if b.get("coin") in STABLES)
     return {"equity": eq, "ntl": ntl}
 
@@ -138,9 +143,10 @@ def signed_traders(account: str) -> tuple[list[str], dict]:
     """The traders this account may follow: LIVE copies whose record the website signed for THIS account (or signed with no
     account yet, when the account's wallet link is also signed by the website for the same login)."""
     acct = account.lower()
-    agents = _sb(f"mi_agents?select=agent_address,account,user_id,claim_sig&account=eq.{acct}&revoked_at=is.null")
-    bound = {a["user_id"] for a in agents if a.get("user_id") and _eq(a.get("claim_sig"), _mac(agent_sig_text(a)))}
+    ag_f = _pool.submit(_sb, f"mi_agents?select=agent_address,account,user_id,claim_sig&account=eq.{acct}&revoked_at=is.null")
     rows = _sb(f"mi_copies?select=id,user_id,trader,account,status,sig&account=eq.{acct}&status=eq.live")
+    agents = ag_f.result()
+    bound = {a["user_id"] for a in agents if a.get("user_id") and _eq(a.get("claim_sig"), _mac(agent_sig_text(a)))}
     ok, bad = [], 0
     for c in rows:
         if _eq(c.get("sig"), _mac(copy_sig_text(c, acct))) or (c["user_id"] in bound and _eq(c.get("sig"), _mac(copy_sig_text(c, "")))):
@@ -164,23 +170,25 @@ def decide(b: dict) -> tuple[bool | None, str, dict]:
         return False, f"unknown action {kind!r}", {}
     if not acct or not coin:
         return False, "missing account or coin", {}
+    me_f, mid_f = _pool.submit(_book, acct, 15), _pool.submit(_mid, coin)    # the account + price, while records load
     traders, rec = signed_traders(acct)
     if not traders:
         return False, "no LIVE copy with a valid website signature for this account", rec
     side = 1 if b.get("is_buy") else -1
-    holders = [t for t in traders if _pos(t, coin, 2) * side > 0]
+    pos = dict(zip(traders, _pool.map(lambda t: _pos(t, coin, 2), traders)))
+    holders = [t for t in traders if pos[t] * side > 0]
     if not holders:                                        # F4: never refuse on a cached read
-        holders = [t for t in traders if _pos(t, coin, 0) * side > 0]
+        pos = dict(zip(traders, _pool.map(lambda t: _pos(t, coin, 0), traders)))
+        holders = [t for t in traders if pos[t] * side > 0]
     if not holders:
         return False, f"no copied trader holds {coin} {'long' if side > 0 else 'short'} now", {**rec, "traders": traders}
     lev = 0.0
-    for t in holders:
-        bk = _book(t, 60)
+    for bk in _pool.map(lambda t: _book(t, 60), holders):
         lev = max(lev, bk["ntl"] / bk["equity"] if bk["equity"] > 0 else 0.0)
     cap = min(20.0, 1.5 * lev)
-    px = _mid(coin) or float(b.get("px") or 0)
+    px = mid_f.result() or float(b.get("px") or 0)
     sz = abs(float(b.get("sz") or 0))
-    me = _book(acct, 15)
+    me = me_f.result()
     limit = me["equity"] * cap * 1.10 + 25
     after = me["ntl"] + sz * px
     if after > limit:                                      # F4 again: fresh read before refusing
