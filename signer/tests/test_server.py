@@ -16,6 +16,7 @@ class FakeEx:
         self.calls.append(("close", coin, sz, slippage, cloid.to_raw() if cloid else None)); return None
     def update_leverage(self, lev, coin, is_cross=True): self.calls.append(("lev", coin, lev, is_cross)); return {"status": "ok"}
     def update_isolated_margin(self, amt, coin): self.calls.append(("iso", coin, amt)); return {"status": "ok"}
+orig_exchange, orig_log = server._exchange, server._log
 fake = FakeEx(); server._exchange = lambda acct, agent: fake; server._log = lambda *a, **k: None
 cl = "0x" + "ab" * 16
 # 1 shadow mode never signs
@@ -50,4 +51,19 @@ from cryptography.fernet import Fernet
 eng = Fernet(base64.urlsafe_b64encode(hashlib.sha256(b"s3cret").digest()))
 tok = eng.encrypt(b"0xdeadbeef")
 check("decrypts what the engine encrypted", server._fernet().decrypt(tok) == b"0xdeadbeef")
+# 7 speed: a ready connection is used without any database read; the log never delays the answer
+import time
+server._ex_cache[("0xagent", "0xacct")] = (time.time(), fake)
+real_key = server._key
+server._key = lambda acct, agent: (_ for _ in ()).throw(AssertionError("no database read when a connection is ready"))
+check("ready connection: no database read", orig_exchange("0xacct", "0xAGENT") is fake)
+server._ex_cache[("0xagent", "0xacct")] = (time.time() - 7 * 3600, fake)
+try: orig_exchange("0xacct", "0xagent"); check("connection older than 6 h is not used", False)
+except AssertionError: check("connection older than 6 h is not used", True)
+server._key = real_key
+slow = []
+server._log_now = lambda *a: (time.sleep(1), slow.append(1))
+t0 = time.time(); orig_log({"kind": "open"}, True, "ok", {}); dt = time.time() - t0
+check("log written after the answer (no wait)", dt < 0.1)
+server._bg.shutdown(wait=True); check("log still written", slow == [1])
 print("ALL PASS" if ok else "FAILED"); sys.exit(0 if ok else 1)

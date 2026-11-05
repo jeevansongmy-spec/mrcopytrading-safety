@@ -21,6 +21,7 @@ import os
 import socket
 import threading
 import time
+from concurrent.futures import ThreadPoolExecutor
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 import signer_core as core
@@ -29,7 +30,10 @@ from signer_core import _env, _eq, _sb, _sb_insert, decide
 SPARE_KEYS = 3
 EXCHANGE_TIMEOUT_S = 10
 SLIPPAGE = 0.01                                      # Walter M1: fixed here (= the engine's LIVE_SLIPPAGE), never taken from the request
+EX_TTL_S = 6 * 3600                                  # a ready Hyperliquid connection is used for up to 6 h ...
+EX_REFRESH_S = 5 * 3600                              # ... and rebuilt in the background after 5 h, so a trade never waits for one
 _ex_cache: dict = {}
+_bg = ThreadPoolExecutor(max_workers=2)              # log rows are written after the answer (speed)
 
 
 def _fernet():
@@ -58,18 +62,45 @@ def _key(acct: str, agent: str | None) -> tuple[str, str]:
     return row["agent_address"], f.decrypt(row["agent_key"][4:].encode()).decode()
 
 
-def _exchange(acct: str, agent: str | None):
+def _build(acct: str, agent_addr: str, key: str):
     from eth_account import Account
     from hyperliquid.exchange import Exchange
     from hyperliquid.utils import constants
-    agent_addr, key = _key(acct, agent)
-    k = (agent_addr, acct)
-    hit = _ex_cache.get(k)
-    if hit and time.time() - hit[0] < 6 * 3600:
-        return hit[1]
     ex = Exchange(Account.from_key(key), constants.MAINNET_API_URL, account_address=acct, perp_dexs=core._dexes(), timeout=EXCHANGE_TIMEOUT_S)
-    _ex_cache[k] = (time.time(), ex)
+    _ex_cache[(agent_addr, acct)] = (time.time(), ex)
     return ex
+
+
+def _exchange(acct: str, agent: str | None):
+    if agent:                                        # speed: a ready connection for exactly this key → no database read
+        hit = _ex_cache.get((agent.lower(), acct))
+        if hit and time.time() - hit[0] < EX_TTL_S:
+            return hit[1]
+    agent_addr, key = _key(acct, agent)
+    hit = _ex_cache.get((agent_addr, acct))
+    if hit and time.time() - hit[0] < EX_TTL_S:
+        return hit[1]
+    return _build(acct, agent_addr, key)
+
+
+def _warm_loop() -> None:
+    """Keep a ready connection for every key of every account with a LIVE copy (built here, never inside a trade)."""
+    while True:
+        try:
+            f = _fernet()
+            accts = sorted({(r.get("account") or "").lower() for r in _sb("mi_copies?select=account&status=eq.live") if r.get("account")})
+            built = False
+            for acct in accts:
+                rows = _sb(f"mi_agents?select=agent_address,agent_key&account=eq.{acct}&revoked_at=is.null")
+                _enc[acct] = rows                    # also kept for closes while the database is down
+                for r in rows:
+                    hit = _ex_cache.get((r["agent_address"], acct))
+                    if not built and f and (r.get("agent_key") or "").startswith("enc:") and (not hit or time.time() - hit[0] > EX_REFRESH_S):
+                        _build(acct, r["agent_address"], f.decrypt(r["agent_key"][4:].encode()).decode())
+                        built = True                 # Walter: at most ONE new connection a minute (~260 Hyperliquid read weight each)
+        except Exception:  # noqa: BLE001 — next round in 60 s; a trade still builds its own connection if none is ready
+            pass
+        time.sleep(60)
 
 
 def _refused(kind: str, why: str):
@@ -83,6 +114,7 @@ def act(b: dict):
     kind, acct, coin = b.get("kind"), (b.get("account") or "").lower(), b.get("coin") or ""
     if _env("SIGNER_MODE", "shadow") != "enforce":
         raise PermissionError("the signer is in shadow mode: it does not sign")
+    t0 = time.time()
     if kind == "close":
         ok, why, det = True, "close (reduce-only)", {}
     else:
@@ -93,6 +125,7 @@ def act(b: dict):
                 ok, why, det = decide(b)
             except Exception as e2:  # noqa: BLE001
                 ok, why, det = False, f"could not check ({str(e2)[:100]})", {}
+    det = {**det, "check_ms": int((time.time() - t0) * 1000)}
     if not ok:
         _log(b, False, why, det)
         return _refused(kind, why)
@@ -110,11 +143,15 @@ def act(b: dict):
         res = ex.update_isolated_margin(float(b["add"]), coin)
     else:
         return _refused(kind or "", f"unknown action {kind!r}")
-    _log(b, True, why, {**det, "answer": json.dumps(res)[:300] if res is not None else None})
+    _log(b, True, why, {**det, "answer": json.dumps(res)[:300] if res is not None else None, "act_ms": int((time.time() - t0) * 1000)})
     return res
 
 
 def _log(b: dict, ok, why: str, det: dict) -> None:
+    _bg.submit(_log_now, b, ok, why, det)             # written after the answer: the engine never waits for the database
+
+
+def _log_now(b: dict, ok, why: str, det: dict) -> None:
     try:
         _sb_insert("mi_signer_checks", {"mode": _env("SIGNER_MODE", "shadow"), "account": (b.get("account") or "").lower(), "kind": b.get("kind"),
                                         "coin": b.get("coin"), "is_buy": b.get("is_buy"), "sz": b.get("sz"), "detail": det, "allowed": ok, "reason": why,
@@ -203,4 +240,5 @@ class Server6(HTTPServer):
 
 if __name__ == "__main__":
     threading.Thread(target=_key_pool_loop, daemon=True, name="key-pool").start()
+    threading.Thread(target=_warm_loop, daemon=True, name="warm").start()
     Server6(("::", int(_env("PORT", "8080"))), Handler).serve_forever()
