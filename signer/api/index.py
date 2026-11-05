@@ -19,11 +19,13 @@ THE RULES (each action the engine wants to send)
   add isolated margin  allowed only when the amount is above 0 (moves the user's own money into their own position).
   set leverage ....... allowed (Hyperliquid caps it at the coin's maximum). Exposure is limited by the size rule below.
   open / add ......... allowed only when ALL of these hold:
-     1. the account has a LIVE copy whose record carries a valid website signature (the engine can't make one);
+     1. the account has a LIVE copy whose record carries a valid website signature, and the same login has a wallet link to
+        this account that the website signed after the wallet's own signature (the engine can't make either);
      2. one of those copied traders holds this coin NOW, on the SAME side (read from Hyperliquid; a 2-second cache may
         allow, but before refusing it reads again);
      3. after the order, the account's total positions stay within its own money on Hyperliquid x min(20, 1.5 x the
-        trader's leverage), plus 10% and $25 of room. Money and positions come from Hyperliquid, never from our database.
+        highest leverage among ALL the traders it copies), plus 10% and $25 of room. Money and positions come from
+        Hyperliquid, never from our database; before refusing, everything is read again.
   Anything else is refused.
 """
 import hashlib
@@ -140,20 +142,23 @@ def agent_sig_text(a: dict) -> str:
 
 
 def signed_traders(account: str) -> tuple[list[str], dict]:
-    """The traders this account may follow: LIVE copies whose record the website signed for THIS account (or signed with no
-    account yet, when the account's wallet link is also signed by the website for the same login)."""
+    """The traders this account may follow: LIVE copies the website signed, AND, for every one of them, the same login has a
+    wallet link to THIS account that the website signed right after the wallet itself signed the wallet check (Walter S1:
+    the copy's wallet address comes from the database, so the copy signature alone can't prove the wallet is that login's)."""
     acct = account.lower()
     ag_f = _pool.submit(_sb, f"mi_agents?select=agent_address,account,user_id,claim_sig&account=eq.{acct}&revoked_at=is.null")
     rows = _sb(f"mi_copies?select=id,user_id,trader,account,status,sig&account=eq.{acct}&status=eq.live")
     agents = ag_f.result()
     bound = {a["user_id"] for a in agents if a.get("user_id") and _eq(a.get("claim_sig"), _mac(agent_sig_text(a)))}
-    ok, bad = [], 0
+    ok, bad, unlinked = [], 0, 0
     for c in rows:
-        if _eq(c.get("sig"), _mac(copy_sig_text(c, acct))) or (c["user_id"] in bound and _eq(c.get("sig"), _mac(copy_sig_text(c, "")))):
+        if c["user_id"] not in bound:
+            unlinked += 1
+        elif _eq(c.get("sig"), _mac(copy_sig_text(c, acct))) or _eq(c.get("sig"), _mac(copy_sig_text(c, ""))):
             ok.append(c["trader"].lower())
         else:
             bad += 1
-    return sorted(set(ok)), {"live_copies": len(rows), "unsigned": bad, "wallet_link_signed": bool(bound)}
+    return sorted(set(ok)), {"live_copies": len(rows), "unsigned": bad, "no_signed_wallet_link": unlinked}
 
 
 # ---------------------------------------------------------------------------------------------- the rules
@@ -182,17 +187,20 @@ def decide(b: dict) -> tuple[bool | None, str, dict]:
         holders = [t for t in traders if pos[t] * side > 0]
     if not holders:
         return False, f"no copied trader holds {coin} {'long' if side > 0 else 'short'} now", {**rec, "traders": traders}
-    lev = 0.0
-    for bk in _pool.map(lambda t: _book(t, 60), holders):
-        lev = max(lev, bk["ntl"] / bk["equity"] if bk["equity"] > 0 else 0.0)
+    def lev_of(ttl: float) -> float:                       # Walter S2: the whole account → ALL its signed traders count
+        return max([bk["ntl"] / bk["equity"] if bk["equity"] > 0 else 0.0 for bk in _pool.map(lambda t: _book(t, ttl), traders)] or [0.0])
+    lev = lev_of(60)
     cap = min(20.0, 1.5 * lev)
     px = mid_f.result() or float(b.get("px") or 0)
     sz = abs(float(b.get("sz") or 0))
     me = me_f.result()
     limit = me["equity"] * cap * 1.10 + 25
     after = me["ntl"] + sz * px
-    if after > limit:                                      # F4 again: fresh read before refusing
-        me = _book(acct, 0)
+    if after > limit:                                      # F4 + Walter S3: fresh reads (account AND traders) before refusing
+        me_f2 = _pool.submit(_book, acct, 0)
+        lev = lev_of(0)
+        cap = min(20.0, 1.5 * lev)
+        me = me_f2.result()
         limit, after = me["equity"] * cap * 1.10 + 25, me["ntl"] + sz * px
     d = {**rec, "holders": holders, "trader_lev": round(lev, 3), "cap_x": round(cap, 3), "equity": round(me["equity"], 2),
          "after_ntl": round(after, 2), "limit": round(limit, 2)}
