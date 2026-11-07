@@ -1,6 +1,6 @@
-# Proof of copying: 18 of 18 opens follow the trader ✅
+# Proof of copying: 16 of 16 opens follow the trader ✅
 
-Checked **Nov 6 2026, 11:26 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/42210194532), from Hyperliquid's public record only (no MrCopyTrading server).
+Checked **Nov 7 2026, 10:38 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/42364794205), from Hyperliquid's public record only (no MrCopyTrading server).
 Last 7 days, our own test copy wallets. Every trade our engine opened or added must follow the copied trader on the
 same coin and side: the trader traded it first, or held it at that moment (a copy takes the trader's open positions when it
 starts). Closes are always allowed.
@@ -9,8 +9,6 @@ starts). Closes are always allowed.
 
 | Time (UTC) | Coin | Our trade | Size @ price | Hyperliquid | The trader's trade it follows |
 |---|---|---|---|---|---|
-| 2026-10-30 18:19 | HYPE | Open Long | 0.13 @ 90.051 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x56376dde03fde5b157b10447b52a3002027f00c39ef10483fa001930c2f1bf9b) | 0xf97a…ddd1 Open Long 5 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x479e050b5554d06149170447b529f102018000f0f057ef33eb66b05e1458aa4b) |
-| 2026-10-31 08:25 | HYPE | Open Long | 0.12 @ 87.086 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x024e21448d1b633e03c70447c0003d0201e0002a281e8210a616cc974c1f3d28) | 0xf97a…ddd1 Open Long 3 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0xf4358226f80bbe27f5af0447c0000b0201e1000c930edcfa97fe2d79b70f9812) |
 | 2026-11-01 15:27 | xyz:INTC | Open Long | 0.17 @ 65.822 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x6cf772c275dfa0eb6e710447d7d56701fa008aa810d2bfbd10c01e1534d37ad6) | 0xf97a…ddd1 Open Long 6 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x9181163f5d81481792fa0447d7d51402010c0024f88466e93549c1921c852202) |
 | 2026-11-02 12:30 | HYPE | Open Long | 0.21 @ 85.77 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xda20598b66e952cddb9a0447e80974020232007101ec719f7de904de25ed2cb8) | 0xf97a…ddd1 held long 5250 HYPE at that moment (copy start / catch-up) |
 | 2026-11-02 17:18 | HYPE | Open Long | 0.15 @ 84.084 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x4678125e2e41b72847f10447ebb9f602020e0043c944d5faea40bdb0ed459112) | 0xf97a…ddd1 Open Long 5 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0xbb30fe0aec7668d5bcaa0447ebb9b602022900f0877987a75ef9a95dab7a42c0) |
