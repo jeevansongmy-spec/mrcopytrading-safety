@@ -1,6 +1,6 @@
-# Proof of copying: 16 of 16 opens follow the trader ✅
+# Proof of copying: 17 of 17 opens follow the trader ✅
 
-Checked **Nov 7 2026, 10:38 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/42364794205), from Hyperliquid's public record only (no MrCopyTrading server).
+Checked **Nov 8 2026, 10:44 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/42472665854), from Hyperliquid's public record only (no MrCopyTrading server).
 Last 7 days, our own test copy wallets. Every trade our engine opened or added must follow the copied trader on the
 same coin and side: the trader traded it first, or held it at that moment (a copy takes the trader's open positions when it
 starts). Closes are always allowed.
@@ -23,6 +23,12 @@ starts). Closes are always allowed.
 | 2026-11-04 10:13 | HYPE | Open Short | 0.14 @ 86.631 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x4c3175e7f4545cfb4dab04480b547d02073400cd8f577bcdeffa213ab35836e5) | 0x1e5c…0ac1 Open Short 5 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x94a7f249e1db6226962104480b543a02025b002f7cde80f838709d9ca0df3c11) |
 | 2026-11-04 20:12 | HYPE | Close Short | 0.14 @ 83.131 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x6b9ca17c51bf8ae26d16044812ee7e0201b50061ecb2a9b40f654ccf10b364cd) | 0xf97a…ddd1 Open Long 9 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x3f265a77ebf261c740a0044812ee0702018c005d86f58099e2ef05caaaf63bb1) |
 | 2026-11-05 15:10 | HYPE | Open Long | 0.15 @ 79.153 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x0f07065fb62c63a81080044821d9870205a70045512f827ab2cfb1b275203d92) | 0xf97a…ddd1 Open Long 10 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x17ea289dc51af5761963044821d8ef021e660083601e1448bbb2d3f0841ecf60) |
+| 2026-11-07 23:15 | HYPE | Close Long | 0.15 @ 77.407 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x03ebc40628ad8ac4056504484d9ad001e200dbebc3a0a996a7b46f58e7a164ae) | close (the trader closed, a stop, or a stop-loss: always allowed) |
+| 2026-11-07 23:15 | HYPE | Open Short | 0.21 @ 77.407 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x09072858a0de9eaf0a8004484d9adb01e600403e3bd1bd81accfd3ab5fd27899) | 0x1e5c…0ac1 held short 1557.11 HYPE at that moment (copy start / catch-up) |
+| 2026-11-07 23:15 | xyz:INTC | Close Long | 0.35 @ 56.066 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xeac7116c5fbd075cec4004484d9ae602018d0051fab0262e8e8fbcbf1eb0e147) | close (the trader closed, a stop, or a stop-loss: always allowed) |
+| 2026-11-07 23:15 | xyz:LITE | Close Long | 0.018 @ 537.09 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x2fa4c8d7441a1c14311e04484d9aef0201d600bcdf1d3ae6d36d742a031df5fe) | close (the trader closed, a stop, or a stop-loss: always allowed) |
+| 2026-11-07 23:15 | xyz:MRVL | Close Long | 0.06 @ 141.28 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xaa79354549041353abf204484d9af902024b002ae40732254e41e0980807ed3e) | close (the trader closed, a stop, or a stop-loss: always allowed) |
+| 2026-11-07 23:15 | HYPE | Close Short | 0.21 @ 77.38 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x6cf678d20713edcc6e7004484d9c5f02025600b7a2170c9e10bf2424c617c7b7) | close (the trader closed, a stop, or a stop-loss: always allowed) |
 
 ## Copy wallet 0xc812…65f4 · copies 0x720c…f4af
 
