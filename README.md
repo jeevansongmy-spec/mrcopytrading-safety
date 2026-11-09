@@ -16,7 +16,10 @@ You can check it yourself, without taking our word for anything:
    from the account owner's own wallet. Our copy engine only holds a trade-only API wallet, so it can do neither.
    → [exchange endpoint](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/exchange-endpoint) ·
    [API wallets](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/nonces-and-api-wallets)
-2. **Your wallet key is with Privy (a Stripe company), never with us.** Privy: agent (API) wallets "do not hold funds".
+2. **Your wallet is made and kept by Privy, and Privy belongs to Stripe.** Stripe bought Privy in June 2025
+   ([news](https://siliconangle.com/2025/06/11/stripe-acquires-crypto-wallet-infrastructure-provider-privy/)), and Privy runs wallets for 75 million+ accounts. Your key stays in Privy's own
+   secure system, never with us, and you can export it on Privy's own screen any time. Privy: SOC 2 Type II; security tests
+   by Cure53, Zellic, Doyensec and SwordBytes. Agent (API) wallets "do not hold funds".
    → [Privy's docs](https://docs.privy.io/recipes/hyperliquid/agents-and-subaccounts)
 3. **GitHub's own servers check the live site against this repo every 6 hours:** every message mrcopytrading.com can ask
    you to sign, field by field. → [latest result, with the date and the run](LIVE-CHECK.md)
@@ -26,7 +29,7 @@ You can check it yourself, without taking our word for anything:
 5. **This repo is ours.** Our official site links here: [mrcopytrading.com/docs/ai](https://mrcopytrading.com/docs/ai).
 
 **"Has anyone outside checked it?"** The parts that hold your money are run and checked by others: your money sits in
-your own account on Hyperliquid, and your wallet key with Privy (SOC 2 Type II; security tests by Cure53, Zellic, Doyensec
+your own account on Hyperliquid, and your wallet key with Privy, a Stripe company (SOC 2 Type II; security tests by Cure53, Zellic, Doyensec
 and SwordBytes). Anyone who finds a bug that could touch money gets up to $10,000 ([bug rewards](https://mrcopytrading.com/docs/bug-rewards)).
 
 **"What can the copy permission do?"** Only the trades of the traders you copy, inside your own account, with the
@@ -112,7 +115,7 @@ the trader's open positions when it starts). Latest result, every trade with its
 | | |
 |---|---|
 | Hyperliquid | Holds your money, in your own account |
-| Privy (a Stripe company) | Your wallet and sign-in; card payments run through Privy and Stripe |
+| Privy (owned by Stripe) | Your wallet and sign-in; card payments run through Privy and Stripe |
 | Circle | USDC and crypto deposits |
 | MrCopyTrading | The copy engine (trades only) and the trader score |
 
