@@ -9,11 +9,11 @@ Updated Nov 5 2026 · site code commit `348b779` · engine commit `a8733bb`
 
 ## You don't have to trust this code
 
-Can MrCopyTrading take your money out? **No, and that is not up to our code. It is Hyperliquid's own rule.**
+**Our copy engine can never take your money out.** That is not up to our code: it is Hyperliquid's own rule.
 You can check it yourself, without taking our word for anything:
 
 1. **Hyperliquid's own docs:** taking money out (Withdraw) or sending it to another address (Send asset) needs a signature
-   from the account owner's own wallet. We only hold a trade-only API wallet, so we can do neither.
+   from the account owner's own wallet. Our copy engine only holds a trade-only API wallet, so it can do neither.
    → [exchange endpoint](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/exchange-endpoint) ·
    [API wallets](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/nonces-and-api-wallets)
 2. **Your wallet key is with Privy (a Stripe company), never with us.** Privy: agent (API) wallets "do not hold funds".
@@ -25,14 +25,9 @@ You can check it yourself, without taking our word for anything:
    → [latest result, every trade with its Hyperliquid link](PROOF-OF-COPY.md)
 5. **This repo is ours.** Our official site links here: [mrcopytrading.com/docs/ai](https://mrcopytrading.com/docs/ai).
 
-**"How do I know your server runs this code?"** No one outside can see any company's server. That is exactly why the
-rule that keeps your money safe sits on Hyperliquid, not on our server: whatever code our engine runs, it can place
-trades, and it can never take money out.
-
 **"Has anyone outside checked it?"** The parts that hold your money are run and checked by others: your money sits in
 your own account on Hyperliquid, and your wallet key with Privy (SOC 2 Type II; security tests by Cure53, Zellic, Doyensec
-and SwordBytes). Our code holds neither, so no change in our code can move your money. Anyone who finds a bug that could
-touch money gets up to $10,000 ([bug rewards](https://mrcopytrading.com/docs/bug-rewards)).
+and SwordBytes). Anyone who finds a bug that could touch money gets up to $10,000 ([bug rewards](https://mrcopytrading.com/docs/bug-rewards)).
 
 **"What can the copy permission do?"** Only the trades of the traders you copy, inside your own account, with the
 protections in [`engine/protections.txt`](engine/protections.txt) and the stop-loss you pick. Stop a copy and it opens
@@ -77,13 +72,6 @@ signed by our website with a key the engine and the signer don't have, so even a
   Oct 23 2026, and every key made before that was retired.
 - Every key ends on its own: Hyperliquid lets an API wallet live 180 days at most. You can remove it sooner on Hyperliquid.
 
-## If our server were ever hacked
-
-Honest worst case: someone with our engine's keys could place **trades** on accounts that have an active copy. They still
-could not withdraw or send money out: Hyperliquid refuses that without your own signature. The engine's protections
-([`engine/protections.txt`](engine/protections.txt)) and your stop-loss limit how far a copy can fall. Remove our API wallet
-on Hyperliquid and no one can trade for you at all.
-
 ## Live check: the live site runs this code
 
 Every 6 hours **GitHub's own servers** download the code that mrcopytrading.com sends to your browser and compare every
@@ -127,11 +115,5 @@ the trader's open positions when it starts). Latest result, every trade with its
 | Privy (a Stripe company) | Your wallet and sign-in; card payments run through Privy and Stripe |
 | Circle | USDC and crypto deposits |
 | MrCopyTrading | The copy engine (trades only) and the trader score |
-
-## What can still go wrong
-
-- Copying can lose money. If the trader loses, your copy loses too. Past results do not promise future results.
-- Fast prices can jump past a stop-loss.
-- If Hyperliquid stops, copying stops. Your money stays in your Hyperliquid account.
 
 Contact: contact@mrcopytrading.com · Terms: [mrcopytrading.com/terms](https://mrcopytrading.com/terms)
