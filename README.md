@@ -7,6 +7,37 @@ It holds the exact live code that asks you to sign anything, and every action ou
 
 Updated Nov 5 2026 · site code commit `348b779` · engine commit `a8733bb`
 
+## You don't have to trust this code
+
+Can MrCopyTrading take your money out? **No, and that is not up to our code. It is Hyperliquid's own rule.**
+You can check it yourself, without taking our word for anything:
+
+1. **Hyperliquid's own docs:** taking money out (Withdraw) or sending it to another address (Send asset) needs a signature
+   from the account owner's own wallet. We only hold a trade-only API wallet, so we can do neither.
+   → [exchange endpoint](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/exchange-endpoint) ·
+   [API wallets](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/nonces-and-api-wallets)
+2. **Your wallet key is with Privy (a Stripe company), never with us.** Privy: agent (API) wallets "do not hold funds".
+   → [Privy's docs](https://docs.privy.io/recipes/hyperliquid/agents-and-subaccounts)
+3. **GitHub's own servers check the live site against this repo every 6 hours:** every message mrcopytrading.com can ask
+   you to sign, field by field. → [latest result, with the date and the run](LIVE-CHECK.md)
+4. **GitHub's own servers also check, once a day, that our engine only copies:** from Hyperliquid's public record, every
+   trade it opened in our test copy wallets is matched to the trader it copies.
+   → [latest result, every trade with its Hyperliquid link](PROOF-OF-COPY.md)
+5. **This repo is ours.** Our official site links here: [mrcopytrading.com/docs/ai](https://mrcopytrading.com/docs/ai).
+
+**"How do I know your server runs this code?"** No one outside can see any company's server. That is exactly why the
+rule that keeps your money safe sits on Hyperliquid, not on our server: whatever code our engine runs, it can place
+trades, and it can never take money out.
+
+**"Has anyone outside checked it?"** The parts that hold your money are run and checked by others: your money sits in
+your own account on Hyperliquid, and your wallet key with Privy (SOC 2 Type II; security tests by Cure53, Zellic, Doyensec
+and SwordBytes). Our code holds neither, so no change in our code can move your money. Anyone who finds a bug that could
+touch money gets up to $10,000 ([bug rewards](https://mrcopytrading.com/docs/bug-rewards)).
+
+**"What can the copy permission do?"** Only the trades of the traders you copy, inside your own account, with the
+protections in [`engine/protections.txt`](engine/protections.txt) and the stop-loss you pick. Stop a copy and it opens
+nothing new. Remove the permission on Hyperliquid yourself and it can do nothing at all.
+
 ## The short answer
 
 1. **Your money is in your own Hyperliquid account, never with us.** Your wallet is made by Privy (a Stripe company) when you
