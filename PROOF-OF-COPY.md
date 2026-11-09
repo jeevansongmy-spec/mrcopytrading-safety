@@ -1,6 +1,6 @@
-# Proof of copying: 17 of 17 opens follow the trader ✅
+# Proof of copying: 16 of 16 opens follow the trader ✅
 
-Checked **Nov 8 2026, 10:44 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/42472665854), from Hyperliquid's public record only (no MrCopyTrading server).
+Checked **Nov 9 2026, 12:02 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/42613675745), from Hyperliquid's public record only (no MrCopyTrading server).
 Last 7 days, our own test copy wallets. Every trade our engine opened or added must follow the copied trader on the
 same coin and side: the trader traded it first, or held it at that moment (a copy takes the trader's open positions when it
 starts). Closes are always allowed.
@@ -9,7 +9,6 @@ starts). Closes are always allowed.
 
 | Time (UTC) | Coin | Our trade | Size @ price | Hyperliquid | The trader's trade it follows |
 |---|---|---|---|---|---|
-| 2026-11-01 15:27 | xyz:INTC | Open Long | 0.17 @ 65.822 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x6cf772c275dfa0eb6e710447d7d56701fa008aa810d2bfbd10c01e1534d37ad6) | 0xf97a…ddd1 Open Long 6 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x9181163f5d81481792fa0447d7d51402010c0024f88466e93549c1921c852202) |
 | 2026-11-02 12:30 | HYPE | Open Long | 0.21 @ 85.77 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xda20598b66e952cddb9a0447e80974020232007101ec719f7de904de25ed2cb8) | 0xf97a…ddd1 held long 5250 HYPE at that moment (copy start / catch-up) |
 | 2026-11-02 17:18 | HYPE | Open Long | 0.15 @ 84.084 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x4678125e2e41b72847f10447ebb9f602020e0043c944d5faea40bdb0ed459112) | 0xf97a…ddd1 Open Long 5 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0xbb30fe0aec7668d5bcaa0447ebb9b602022900f0877987a75ef9a95dab7a42c0) |
 | 2026-11-03 14:04 | HYPE | Close Long | 0.61 @ 87.14 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x85bdeebed86fb72687370447fbb8c60204f000a47362d5f829869a1197639111) | 0xf97a…ddd1 Close Long 8 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x621e8efc94d2156463980447fbb84f0203e200e22fd5343605e73a4f53d5ef4f) |
