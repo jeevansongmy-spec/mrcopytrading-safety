@@ -1,6 +1,6 @@
-# Proof of copying: 16 of 16 opens follow the trader ✅
+# Proof of copying: 14 of 14 opens follow the trader ✅
 
-Checked **Nov 9 2026, 12:02 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/42613675745), from Hyperliquid's public record only (no MrCopyTrading server).
+Checked **Nov 10 2026, 11:41 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/42809495354), from Hyperliquid's public record only (no MrCopyTrading server).
 Last 7 days, our own test copy wallets. Every trade our engine opened or added must follow the copied trader on the
 same coin and side: the trader traded it first, or held it at that moment (a copy takes the trader's open positions when it
 starts). Closes are always allowed.
@@ -9,8 +9,6 @@ starts). Closes are always allowed.
 
 | Time (UTC) | Coin | Our trade | Size @ price | Hyperliquid | The trader's trade it follows |
 |---|---|---|---|---|---|
-| 2026-11-02 12:30 | HYPE | Open Long | 0.21 @ 85.77 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xda20598b66e952cddb9a0447e80974020232007101ec719f7de904de25ed2cb8) | 0xf97a…ddd1 held long 5250 HYPE at that moment (copy start / catch-up) |
-| 2026-11-02 17:18 | HYPE | Open Long | 0.15 @ 84.084 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x4678125e2e41b72847f10447ebb9f602020e0043c944d5faea40bdb0ed459112) | 0xf97a…ddd1 Open Long 5 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0xbb30fe0aec7668d5bcaa0447ebb9b602022900f0877987a75ef9a95dab7a42c0) |
 | 2026-11-03 14:04 | HYPE | Close Long | 0.61 @ 87.14 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x85bdeebed86fb72687370447fbb8c60204f000a47362d5f829869a1197639111) | 0xf97a…ddd1 Close Long 8 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x621e8efc94d2156463980447fbb84f0203e200e22fd5343605e73a4f53d5ef4f) |
 | 2026-11-03 17:42 | xyz:INTC | Open Long | 0.18 @ 60.752 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xa1626593017987d1a2dc0447fe867102011200789c7ca6a3452b10e5c07d61bc) | 0xf97a…ddd1 held long 3500 xyz:INTC at that moment (copy start / catch-up) |
 | 2026-11-04 00:23 | HYPE | Open Long | 0.15 @ 83.907 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x255eb5ccb9a95b8426d8044803ae5902030500b254ac7a56c927611f78ad356e) | 0xf97a…ddd1 Open Long 6 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x8a835f99a99cf4cd8bfd044803ae0502097e010a4490139f2e4c0aec6890ceb8) |
@@ -46,5 +44,7 @@ starts). Closes are always allowed.
 | 2026-11-05 20:55 | xyz:GOOGL | Close Long | 0.039 @ 283.21 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x840b27cf033f2acc8584044826600c02044700b49e32499e27d3d321c23304b7) | close (the trader closed, a stop, or a stop-loss: always allowed) |
 | 2026-11-06 03:29 | io:ANTH | Open Long | 0.008 @ 1636.0 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x107221c5c613126911eb04482b88300202f100ab6116313bb43acd188516ec53) | 0x720c…f4af Open Long 3 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x2728a36dd6fa2bf828a204482b87fd02036e005371fd4acacaf14ec095fe05e2) |
 | 2026-11-06 03:47 | io:ANTH | Close Long | 0.008 @ 1702.2 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x5d14ba6d02b1e2865e8e04482bc4670201f800529db5015800dd65bfc1b5bc71) | 0x720c…f4af Close Long 2 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x5884df29350dc1d859fe04482bc44b01f100f70ed000e0aafc4d8a7bf4019bc2) |
+| 2026-11-09 13:13 | xyz:SOXL | Close Long | 0.26 @ 47.173 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x948d1dec12b24962960604486b061302059c00d1adb568343855c93ed1b6234d) | 0x720c…f4af Close Long 2 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x2990d6801db9a5ea2b0a04486b05f80201930065b8bcc4bccd5981d2dcbd7fd4) |
+| 2026-11-09 14:55 | xyz:SOXL | Close Long | 0.27 @ 52.15 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x2e5598368646bd342fcf04486c57630209ad001c2149dc06d21e4389454a971e) | 0x720c…f4af Close Long 4 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x8ef87aceb9742803907204486c572702068400b4547746d532c12621787801ee) |
 
 The check itself: [proof-of-copy.mjs](proof-of-copy.mjs) · schedule: [.github/workflows/proof-of-copy.yml](.github/workflows/proof-of-copy.yml)
