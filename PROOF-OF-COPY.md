@@ -1,6 +1,6 @@
-# Proof of copying: 14 of 14 opens follow the trader ✅
+# Proof of copying: 6 of 6 opens follow the trader ✅
 
-Checked **Nov 10 2026, 11:41 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/42809495354), from Hyperliquid's public record only (no MrCopyTrading server).
+Checked **Nov 11 2026, 11:25 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/43011742853), from Hyperliquid's public record only (no MrCopyTrading server).
 Last 7 days, our own test copy wallets. Every trade our engine opened or added must follow the copied trader on the
 same coin and side: the trader traded it first, or held it at that moment (a copy takes the trader's open positions when it
 starts). Closes are always allowed.
@@ -9,15 +9,6 @@ starts). Closes are always allowed.
 
 | Time (UTC) | Coin | Our trade | Size @ price | Hyperliquid | The trader's trade it follows |
 |---|---|---|---|---|---|
-| 2026-11-03 14:04 | HYPE | Close Long | 0.61 @ 87.14 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x85bdeebed86fb72687370447fbb8c60204f000a47362d5f829869a1197639111) | 0xf97a…ddd1 Close Long 8 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x621e8efc94d2156463980447fbb84f0203e200e22fd5343605e73a4f53d5ef4f) |
-| 2026-11-03 17:42 | xyz:INTC | Open Long | 0.18 @ 60.752 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xa1626593017987d1a2dc0447fe867102011200789c7ca6a3452b10e5c07d61bc) | 0xf97a…ddd1 held long 3500 xyz:INTC at that moment (copy start / catch-up) |
-| 2026-11-04 00:23 | HYPE | Open Long | 0.15 @ 83.907 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x255eb5ccb9a95b8426d8044803ae5902030500b254ac7a56c927611f78ad356e) | 0xf97a…ddd1 Open Long 6 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x8a835f99a99cf4cd8bfd044803ae0502097e010a4490139f2e4c0aec6890ceb8) |
-| 2026-11-04 01:44 | HYPE | Open Long | 0.15 @ 81.991 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xa67cbae65164667ba7f6044804ba3302051f00cbec67854d4a45663910684066) | 0xf97a…ddd1 Open Long 6 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x82bf1b39fd58b3198438044804b9f10000fa331f985bd1eb2687c68cbc5c8d04) |
-| 2026-11-04 01:55 | xyz:MRVL | Open Long | 0.06 @ 167.1 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x37b0e8330533a19d392a044804ddc3020c940018a036c06fdb799385c4377b87) | 0xf97a…ddd1 held long 650 xyz:MRVL at that moment (copy start / catch-up) |
-| 2026-11-04 02:25 | xyz:LITE | Open Long | 0.018 @ 650.01 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x56d116678d7d8421584a044805429e020431004d2870a2f3fa99c1ba4c715e0b) | 0xf97a…ddd1 Open Long 6 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x31e442dd888f66a2335d044805424f0205d500c323828574d5acee304783408c) |
-| 2026-11-04 04:16 | HYPE | Close Long | 0.19 @ 82.9 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x98a9944420292a0a9a23044806b59d0202590029bb2c48dc3c723f96df2d03f5) | 0xf97a…ddd1 Close Long 5 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0xc21f64324ace4c09c399044806b5570204710017e5c16adb65e80f8509c225f4) |
-| 2026-11-04 05:13 | HYPE | Close Long | 0.11 @ 83.962 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xe84e1436593ebff3e9c704480772ba0202c1001bf431dec58c16bf89183299de) | 0xf97a…ddd1 Close Long 3 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x6f4f0f0e6657b0d670c804480772910201f000f4015acfa81317ba61255b8ac1) |
-| 2026-11-04 10:13 | HYPE | Open Short | 0.14 @ 86.631 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x4c3175e7f4545cfb4dab04480b547d02073400cd8f577bcdeffa213ab35836e5) | 0x1e5c…0ac1 Open Short 5 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x94a7f249e1db6226962104480b543a02025b002f7cde80f838709d9ca0df3c11) |
 | 2026-11-04 20:12 | HYPE | Close Short | 0.14 @ 83.131 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x6b9ca17c51bf8ae26d16044812ee7e0201b50061ecb2a9b40f654ccf10b364cd) | 0xf97a…ddd1 Open Long 9 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x3f265a77ebf261c740a0044812ee0702018c005d86f58099e2ef05caaaf63bb1) |
 | 2026-11-05 15:10 | HYPE | Open Long | 0.15 @ 79.153 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x0f07065fb62c63a81080044821d9870205a70045512f827ab2cfb1b275203d92) | 0xf97a…ddd1 Open Long 10 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x17ea289dc51af5761963044821d8ef021e660083601e1448bbb2d3f0841ecf60) |
 | 2026-11-07 23:15 | HYPE | Close Long | 0.15 @ 77.407 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x03ebc40628ad8ac4056504484d9ad001e200dbebc3a0a996a7b46f58e7a164ae) | close (the trader closed, a stop, or a stop-loss: always allowed) |
@@ -31,10 +22,6 @@ starts). Closes are always allowed.
 
 | Time (UTC) | Coin | Our trade | Size @ price | Hyperliquid | The trader's trade it follows |
 |---|---|---|---|---|---|
-| 2026-11-04 01:30 | xyz:GOOGL | Close Long | 0.107 @ 276.0 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xeffe4a047adf9a75f1780448048d6602078f00ea15d2b94893c6f55739d37460) | close (the trader closed, a stop, or a stop-loss: always allowed) |
-| 2026-11-04 01:30 | xyz:INTC | Close Long | 0.31 @ 58.828 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x9f4e9c257c9964aaa0c80448048d760205bb000b179c837c431747783b9d3e95) | close (the trader closed, a stop, or a stop-loss: always allowed) |
-| 2026-11-04 01:33 | xyz:GOOGL | Open Long | 0.139 @ 275.29 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xa5abc689b205cceca725044804949f02049d006f4d08ebbe497471dc7109a6d7) | 0x720c…f4af held long 1000 xyz:GOOGL at that moment (copy start / catch-up) |
-| 2026-11-04 01:33 | xyz:INTC | Open Long | 0.53 @ 58.552 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x4e701be2ee8b1c854fe904480494bb02121900c8898e3b57f238c735ad8ef66f) | 0x720c…f4af held long 3818.35 xyz:INTC at that moment (copy start / catch-up) |
 | 2026-11-05 15:25 | io:NBIS | Open Long | 0.46 @ 118.65 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x1fdccb8b9a712d8721560448220a79020efa007135744c59c3a576de59750771) | 0x720c…f4af Open Long 9 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0xeca6899513b7c26aee2004482209ef020be0007aaebae13c906f34e7d2bb9c55) |
 | 2026-11-05 15:31 | xyz:SOXL | Open Long | 0.22 @ 48.448 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x29687d1c4e9afc4e2ae20448221fa3021e3a0001e99e1b20cd31286f0d9ed638) | 0x720c…f4af Open Long 259 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x983f552be73f384c99b904482210f3020bc400118232571e3c08007ea6331237) |
 | 2026-11-05 15:33 | io:NBIS | Close Long | 0.15 @ 119.11 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xf6014f8b34cdece0f77b0448222583020e350070cfc10bb399c9faddf3c1c6cb) | 0x720c…f4af Close Long 3 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0xcb6c7d0216e56fe1cce6044822255f02065b00e7b1e88eb36f352854d5e949cc) |
