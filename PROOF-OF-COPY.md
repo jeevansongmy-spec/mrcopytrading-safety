@@ -1,6 +1,6 @@
 # Proof of copying: 6 of 6 opens follow the trader ✅
 
-Checked **Nov 11 2026, 11:25 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/43011742853), from Hyperliquid's public record only (no MrCopyTrading server).
+Checked **Nov 12 2026, 11:46 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/43212014219), from Hyperliquid's public record only (no MrCopyTrading server).
 Last 7 days, our own test copy wallets. Every trade our engine opened or added must follow the copied trader on the
 same coin and side: the trader traded it first, or held it at that moment (a copy takes the trader's open positions when it
 starts). Closes are always allowed.
@@ -9,7 +9,6 @@ starts). Closes are always allowed.
 
 | Time (UTC) | Coin | Our trade | Size @ price | Hyperliquid | The trader's trade it follows |
 |---|---|---|---|---|---|
-| 2026-11-04 20:12 | HYPE | Close Short | 0.14 @ 83.131 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x6b9ca17c51bf8ae26d16044812ee7e0201b50061ecb2a9b40f654ccf10b364cd) | 0xf97a…ddd1 Open Long 9 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x3f265a77ebf261c740a0044812ee0702018c005d86f58099e2ef05caaaf63bb1) |
 | 2026-11-05 15:10 | HYPE | Open Long | 0.15 @ 79.153 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x0f07065fb62c63a81080044821d9870205a70045512f827ab2cfb1b275203d92) | 0xf97a…ddd1 Open Long 10 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x17ea289dc51af5761963044821d8ef021e660083601e1448bbb2d3f0841ecf60) |
 | 2026-11-07 23:15 | HYPE | Close Long | 0.15 @ 77.407 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x03ebc40628ad8ac4056504484d9ad001e200dbebc3a0a996a7b46f58e7a164ae) | close (the trader closed, a stop, or a stop-loss: always allowed) |
 | 2026-11-07 23:15 | HYPE | Open Short | 0.21 @ 77.407 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x09072858a0de9eaf0a8004484d9adb01e600403e3bd1bd81accfd3ab5fd27899) | 0x1e5c…0ac1 held short 1557.11 HYPE at that moment (copy start / catch-up) |
@@ -33,5 +32,6 @@ starts). Closes are always allowed.
 | 2026-11-06 03:47 | io:ANTH | Close Long | 0.008 @ 1702.2 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x5d14ba6d02b1e2865e8e04482bc4670201f800529db5015800dd65bfc1b5bc71) | 0x720c…f4af Close Long 2 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x5884df29350dc1d859fe04482bc44b01f100f70ed000e0aafc4d8a7bf4019bc2) |
 | 2026-11-09 13:13 | xyz:SOXL | Close Long | 0.26 @ 47.173 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x948d1dec12b24962960604486b061302059c00d1adb568343855c93ed1b6234d) | 0x720c…f4af Close Long 2 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x2990d6801db9a5ea2b0a04486b05f80201930065b8bcc4bccd5981d2dcbd7fd4) |
 | 2026-11-09 14:55 | xyz:SOXL | Close Long | 0.27 @ 52.15 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x2e5598368646bd342fcf04486c57630209ad001c2149dc06d21e4389454a971e) | 0x720c…f4af Close Long 4 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x8ef87aceb9742803907204486c572702068400b4547746d532c12621787801ee) |
+| 2026-11-11 15:29 | io:NBIS | Close Long | 0.07 @ 155.99 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xe504db96d42c637ae67e0448918c540205c6007c6f2f824c88cd86e993203d65) | close (the trader closed, a stop, or a stop-loss: always allowed) |
 
 The check itself: [proof-of-copy.mjs](proof-of-copy.mjs) · schedule: [.github/workflows/proof-of-copy.yml](.github/workflows/proof-of-copy.yml)
