@@ -1,7 +1,7 @@
 # Live check: PASS ✅
 
-Checked **Nov 12 2026, 20:03 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/43296300825).
-Downloaded 328 JavaScript files (14.6 MB) from the live https://mrcopytrading.com
+Checked **Nov 13 2026, 06:54 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/43381901165).
+Downloaded 328 JavaScript files (14.7 MB) from the live https://mrcopytrading.com
 and compared every Hyperliquid message it can ask you to sign with the code published in [site/](site/).
 
 The live site asks users to sign only the messages published here, with the same fields. None of them lets MrCopyTrading withdraw or send your money: Withdraw and Send are signed by you, to the address you choose, and Hyperliquid refuses a withdrawal signed by our copy permission (API wallet).
