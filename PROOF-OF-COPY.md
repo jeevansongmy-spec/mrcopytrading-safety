@@ -1,6 +1,6 @@
 # Proof of copying: 1 of 1 opens follow the trader ✅
 
-Checked **Nov 13 2026, 11:28 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/43417359334), from Hyperliquid's public record only (no MrCopyTrading server).
+Checked **Nov 14 2026, 10:52 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/43587282153), from Hyperliquid's public record only (no MrCopyTrading server).
 Last 7 days, our own test copy wallets. Every trade our engine opened or added must follow the copied trader on the
 same coin and side: the trader traded it first, or held it at that moment (a copy takes the trader's open positions when it
 starts). Closes are always allowed.
