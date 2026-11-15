@@ -1,6 +1,6 @@
 # Live check: PASS ✅
 
-Checked **Nov 14 2026, 22:34 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/43648773828).
+Checked **Nov 15 2026, 06:45 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/43686809142).
 Downloaded 328 JavaScript files (14.7 MB) from the live https://mrcopytrading.com
 and compared every Hyperliquid message it can ask you to sign with the code published in [site/](site/).
 
