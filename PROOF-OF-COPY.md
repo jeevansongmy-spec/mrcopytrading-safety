@@ -1,6 +1,6 @@
-# Proof of copying: 2 of 2 opens follow the trader ✅
+# Proof of copying: 3 of 3 opens follow the trader ✅
 
-Checked **Nov 16 2026, 11:58 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/43862427913), from Hyperliquid's public record only (no MrCopyTrading server).
+Checked **Nov 17 2026, 12:23 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/44082716285), from Hyperliquid's public record only (no MrCopyTrading server).
 Last 7 days, our own test copy wallets. Every trade our engine opened or added must follow the copied trader on the
 same coin and side: the trader traded it first, or held it at that moment (a copy takes the trader's open positions when it
 starts). Closes are always allowed.
@@ -13,8 +13,6 @@ No trades in this window.
 
 | Time (UTC) | Coin | Our trade | Size @ price | Hyperliquid | The trader's trade it follows |
 |---|---|---|---|---|---|
-| 2026-11-09 13:13 | xyz:SOXL | Close Long | 0.26 @ 47.173 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x948d1dec12b24962960604486b061302059c00d1adb568343855c93ed1b6234d) | 0x720c…f4af Close Long 2 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x2990d6801db9a5ea2b0a04486b05f80201930065b8bcc4bccd5981d2dcbd7fd4) |
-| 2026-11-09 14:55 | xyz:SOXL | Close Long | 0.27 @ 52.15 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x2e5598368646bd342fcf04486c57630209ad001c2149dc06d21e4389454a971e) | 0x720c…f4af Close Long 4 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x8ef87aceb9742803907204486c572702068400b4547746d532c12621787801ee) |
 | 2026-11-11 15:29 | io:NBIS | Close Long | 0.07 @ 155.99 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xe504db96d42c637ae67e0448918c540205c6007c6f2f824c88cd86e993203d65) | close (the trader closed, a stop, or a stop-loss: always allowed) |
 | 2026-11-14 22:12 | xyz:MSTR | Open Long | 0.558 @ 96.8696003584 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xb3fbdf163c54a202b5750448cde6520209cb00fbd757c0d457c48a68fb587bed) | 0x720c…f4af Open Long 4 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0xdeb85d08e3078883e0320448cde61802071000ee7e0aa7558281085ba20b626e) |
 | 2026-11-14 22:39 | xyz:MSTR | Close Long | 0.116 @ 96.999 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x4d0407c5e6a4d8f24e7d0448ce3f6502041900ab81a7f7c4f0ccb318a5a8b2dc) | 0x720c…f4af Close Long 0 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0xbb890607731fe16dbd020448ce3f6102048c00ed0e13003f5f51b15a3213bb58) |
@@ -25,5 +23,6 @@ No trades in this window.
 | 2026-11-15 01:23 | xyz:PURRDAT | Open Long | 4.0 @ 7.175 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x250b03984b7b4e5826840448d06193020b88007de67e6d2ac8d3aeeb0a7f2842) | 0x720c…f4af Open Long 16 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x823ba09128e6636583b50448d060b502054d0076c3e9823726044be3e7ea3d50) |
 | 2026-11-15 02:17 | xyz:PURRDAT | Close Long | 2.0 @ 7.5759 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x615e49ec9cb2f72462d80448d114a10205f600d237b615f60526f53f5bb6d10f) | 0x720c…f4af Close Long 2 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x470b96dce897d41f48850448d114850214f000c2839af2f1ead4422fa79bae09) |
 | 2026-11-15 03:24 | xyz:PURRDAT | Close Long | 2.0 @ 7.7051 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xa98040ec766739c7aaf90448d1f0f702031b00d2116a58994d48ec3f356b13b2) | 0x720c…f4af Close Long 29 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0xfa11e2060d1cea81fb8b0448d1ef520201b700eba81009549dda8d58cc10c46c) |
+| 2026-11-16 15:42 | xyz:GOOGL | Open Long | 0.038 @ 287.87 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x571d7300ea408c8058970448ede32c02074000e68543ab52fae61e53a944666a) | 0x720c…f4af held long 1000 xyz:GOOGL at that moment (copy start / catch-up) |
 
 The check itself: [proof-of-copy.mjs](proof-of-copy.mjs) · schedule: [.github/workflows/proof-of-copy.yml](.github/workflows/proof-of-copy.yml)
