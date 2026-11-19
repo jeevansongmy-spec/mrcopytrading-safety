@@ -1,6 +1,6 @@
 # Proof of copying: 4 of 4 opens follow the trader ✅
 
-Checked **Nov 18 2026, 12:10 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/44301392680), from Hyperliquid's public record only (no MrCopyTrading server).
+Checked **Nov 19 2026, 12:04 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/44520434547), from Hyperliquid's public record only (no MrCopyTrading server).
 Last 7 days, our own test copy wallets. Every trade our engine opened or added must follow the copied trader on the
 same coin and side: the trader traded it first, or held it at that moment (a copy takes the trader's open positions when it
 starts). Closes are always allowed.
@@ -13,7 +13,6 @@ No trades in this window.
 
 | Time (UTC) | Coin | Our trade | Size @ price | Hyperliquid | The trader's trade it follows |
 |---|---|---|---|---|---|
-| 2026-11-11 15:29 | io:NBIS | Close Long | 0.07 @ 155.99 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xe504db96d42c637ae67e0448918c540205c6007c6f2f824c88cd86e993203d65) | close (the trader closed, a stop, or a stop-loss: always allowed) |
 | 2026-11-14 22:12 | xyz:MSTR | Open Long | 0.558 @ 96.8696003584 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xb3fbdf163c54a202b5750448cde6520209cb00fbd757c0d457c48a68fb587bed) | 0x720c…f4af Open Long 4 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0xdeb85d08e3078883e0320448cde61802071000ee7e0aa7558281085ba20b626e) |
 | 2026-11-14 22:39 | xyz:MSTR | Close Long | 0.116 @ 96.999 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x4d0407c5e6a4d8f24e7d0448ce3f6502041900ab81a7f7c4f0ccb318a5a8b2dc) | 0x720c…f4af Close Long 0 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0xbb890607731fe16dbd020448ce3f6102048c00ed0e13003f5f51b15a3213bb58) |
 | 2026-11-14 23:44 | xyz:MSTR | Close Long | 0.12 @ 97.104 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x7a2207a07e41de857b9b0448cf19bf02086100861944fd571deab2f33d45b870) | 0x720c…f4af Close Long 0 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0xfc7fe8e06086f2e5fdf90448cf19c102029b00c5fb8a11b8a04894331f8accd0) |
