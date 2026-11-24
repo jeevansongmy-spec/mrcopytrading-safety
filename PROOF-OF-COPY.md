@@ -1,6 +1,6 @@
-# Proof of copying: 6 of 6 opens follow the trader ✅
+# Proof of copying: 5 of 5 opens follow the trader ✅
 
-Checked **Nov 23 2026, 13:35 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/45185337550), from Hyperliquid's public record only (no MrCopyTrading server).
+Checked **Nov 24 2026, 14:12 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/45411534230), from Hyperliquid's public record only (no MrCopyTrading server).
 Last 7 days, our own test copy wallets. Every trade our engine opened or added must follow the copied trader on the
 same coin and side: the trader traded it first, or held it at that moment (a copy takes the trader's open positions when it
 starts). Closes are always allowed.
@@ -13,7 +13,6 @@ No trades in this window.
 
 | Time (UTC) | Coin | Our trade | Size @ price | Hyperliquid | The trader's trade it follows |
 |---|---|---|---|---|---|
-| 2026-11-16 15:42 | xyz:GOOGL | Open Long | 0.038 @ 287.87 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x571d7300ea408c8058970448ede32c02074000e68543ab52fae61e53a944666a) | 0x720c…f4af held long 1000 xyz:GOOGL at that moment (copy start / catch-up) |
 | 2026-11-18 06:01 | xyz:COPPER | Open Long | 2.0 @ 5.9243 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x2c47d4319276f1de2dc104490b5750020a0700172d7a10b0d0107f84517acbc8) | 0x720c…f4af Open Long 4 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x2cf5da5437f9a6d12e6f04490b572002030f0039d2fcc5a3d0be85a6f6fd80bb) |
 | 2026-11-18 06:21 | xyz:COPPER | Close Long | 2.0 @ 5.9151 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xfa5ac3ddef2f8eeefbd404490b9a5b02089300c38a22adc19e236f30ae2368d9) | 0x720c…f4af Close Long 2 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x76b32787f14c0955782c04490b9a370202b9006d8c4f28271a7bd2dab04fe340) |
 | 2026-11-19 21:32 | xyz:CRCL | Open Long | 0.476 @ 50.882 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xf5be70334aa56943f738044929b6c6020db40018e5a8881699871b8609a9432e) | 0x720c…f4af Open Long 5 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0xa1922161578f9fa3a30b044929b682020a060046f282be75455accb41683798e) |
