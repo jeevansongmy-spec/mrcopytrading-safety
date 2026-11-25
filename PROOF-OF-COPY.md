@@ -1,6 +1,6 @@
-# Proof of copying: 5 of 5 opens follow the trader ✅
+# Proof of copying: 4 of 4 opens follow the trader ✅
 
-Checked **Nov 24 2026, 14:12 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/45411534230), from Hyperliquid's public record only (no MrCopyTrading server).
+Checked **Nov 25 2026, 13:25 UTC** by GitHub Actions (https://github.com/jeevansongmy-spec/mrcopytrading-safety/actions/runs/45623424671), from Hyperliquid's public record only (no MrCopyTrading server).
 Last 7 days, our own test copy wallets. Every trade our engine opened or added must follow the copied trader on the
 same coin and side: the trader traded it first, or held it at that moment (a copy takes the trader's open positions when it
 starts). Closes are always allowed.
@@ -13,8 +13,6 @@ No trades in this window.
 
 | Time (UTC) | Coin | Our trade | Size @ price | Hyperliquid | The trader's trade it follows |
 |---|---|---|---|---|---|
-| 2026-11-18 06:01 | xyz:COPPER | Open Long | 2.0 @ 5.9243 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x2c47d4319276f1de2dc104490b5750020a0700172d7a10b0d0107f84517acbc8) | 0x720c…f4af Open Long 4 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x2cf5da5437f9a6d12e6f04490b572002030f0039d2fcc5a3d0be85a6f6fd80bb) |
-| 2026-11-18 06:21 | xyz:COPPER | Close Long | 2.0 @ 5.9151 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xfa5ac3ddef2f8eeefbd404490b9a5b02089300c38a22adc19e236f30ae2368d9) | 0x720c…f4af Close Long 2 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x76b32787f14c0955782c04490b9a370202b9006d8c4f28271a7bd2dab04fe340) |
 | 2026-11-19 21:32 | xyz:CRCL | Open Long | 0.476 @ 50.882 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xf5be70334aa56943f738044929b6c6020db40018e5a8881699871b8609a9432e) | 0x720c…f4af Open Long 5 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0xa1922161578f9fa3a30b044929b682020a060046f282be75455accb41683798e) |
 | 2026-11-19 21:43 | xyz:NVDA | Open Long | 0.098 @ 144.93 | [tx](https://app.hyperliquid.xyz/explorer/tx/0xad00f04169ff4fb5ae7a044929dbcf020184002704f26e8750c99b9428f329a0) | 0x720c…f4af Open Long 4 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0x8e280fa982d736ad8fa1044929db9e0202f7008f1dda557f31f0bafc41db1098) |
 | 2026-11-20 00:04 | xyz:CRCL | Close Long | 0.216 @ 51.755 | [tx](https://app.hyperliquid.xyz/explorer/tx/0x53e7726573bdfa8f556104492baa72020211004b0eb11961f7b01db832b1d479) | 0x720c…f4af Close Long 2 s before [tx](https://app.hyperliquid.xyz/explorer/tx/0xb7481af81d704074b8c104492baa570202d400ddb8735f465b10c64adc741a5f) |
